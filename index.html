@@ -18,11 +18,15 @@
         }
 
         h1 {
-            margin: clamp(8px, 2vw, 20px) 10px;
-            font-size: clamp(0.8em, 2.6vw, 1.6em);
+            position: fixed;
+            left: 0;
+            right: 0;
+            margin: 0;
+            padding: 0 16px;
+            font-size: clamp(1.05em, 5vw, 1.6em);
+            line-height: 1.5;
             color: #5a4c00;
             text-align: center;
-            position: relative;
             z-index: 10;
         }
 
@@ -264,12 +268,22 @@
 
         // Responsive scaling — scales the entire bouquet from bottom center
         const wrap = document.getElementById('bouquet-wrap');
-        function scaleBouquet() {
+        const title = document.querySelector('h1');
+
+        function layout() {
             const s = Math.min(1, window.innerWidth / 800);
             wrap.style.transform = `scale(${s})`;
+
+            // Center the title in the empty space above the bouquet.
+            // The tallest flower sits ~750px from ground; scale it to get visual top.
+            const bouquetVisualTop = window.innerHeight - 750 * s;
+            const available = Math.max(0, bouquetVisualTop);
+            const titleH = title.offsetHeight;
+            title.style.top = Math.max(8, (available - titleH) / 2) + 'px';
         }
-        scaleBouquet();
-        window.addEventListener('resize', scaleBouquet);
+
+        layout();
+        window.addEventListener('resize', layout);
 
         // Animate flowers on bloom
         document.querySelectorAll('.flower').forEach((flower, i) => {
