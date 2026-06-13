@@ -8,7 +8,7 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             background: linear-gradient(180deg, #fffbe6, #fff3c1);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -18,51 +18,58 @@
         }
 
         h1 {
-            margin: 20px 0;
-            font-size: 1.6em;
+            margin: clamp(8px, 2vw, 20px) 10px;
+            font-size: clamp(0.8em, 2.6vw, 1.6em);
             color: #5a4c00;
             text-align: center;
+            position: relative;
             z-index: 10;
         }
 
-        /* Fondo: hojas cayendo */
         .leaf {
-            position: absolute;
+            position: fixed;
             width: 30px;
             height: 30px;
             animation: fall linear infinite, sway ease-in-out infinite;
             opacity: 0.9;
             z-index: 1;
+            pointer-events: none;
         }
 
         @keyframes fall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg);
-            }
-
-            100% {
-                transform: translateY(110vh) rotate(360deg);
-            }
+            0%   { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
         }
 
         @keyframes sway {
-            0% {
-                margin-left: 0;
-            }
-
-            50% {
-                margin-left: 20px;
-            }
-
-            100% {
-                margin-left: 0;
-            }
+            0%   { margin-left: 0; }
+            50%  { margin-left: 20px; }
+            100% { margin-left: 0; }
         }
 
-        /* Tallo central más alto */
+        /* Full-viewport fixed wrapper — scales from bottom center */
+        #bouquet-wrap {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            transform-origin: bottom center;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Centers the bouquet horizontally */
+        .bouquet-inner {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-10px); /* offset = half tallo width */
+        }
+
         .tallo {
             position: absolute;
-            bottom: 20px;
+            bottom: 0;
             width: 20px;
             height: 400px;
             background: #4caf50;
@@ -71,7 +78,6 @@
             animation: grow 2s forwards;
         }
 
-        /* Hojas del tallo */
         .leaf-tallo {
             position: absolute;
             width: 40px;
@@ -81,7 +87,6 @@
             transform-origin: left center;
         }
 
-        /* Flor */
         .flor {
             position: absolute;
             transform-origin: center center;
@@ -89,452 +94,192 @@
         }
 
         @keyframes grow {
-            0% {
-                height: 0;
-            }
-
-            100% {
-                height: 400px;
-            }
+            0%   { height: 0; }
+            100% { height: 400px; }
         }
 
         @keyframes bloom {
-            0% {
-                transform: scale(0);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0%   { transform: scale(0); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 
 <body>
-    <h1>Feliz 21 de Septiembre Rosa🌼<br />Unas flores para una rosa<br />Que este detalle llenen tu día de alegría ✨</h1>
+    <h1>Feliz cumpleaños Marabelle🌼<br>aunque no este cerca, te mando estas flores<br>Espero que este día sea el mejor! TQM ✨</h1>
 
-    <div class="tallo">
-        <!-- Hojas del tallo -->
-        <div class="leaf-tallo" style="bottom:200px; left:-20px; transform:rotate(-25deg);"></div>
-        <!-- Tallos adicionales -->
-        <div class="tallo"
-            style="width:12px; height:250px; left: 30px;; bottom:0; transform:rotate(-10deg); background:#4caf50;">
+    <div id="bouquet-wrap">
+        <div class="bouquet-inner">
+            <div class="tallo">
+                <!-- Hoja del tallo principal -->
+                <div class="leaf-tallo" style="bottom:200px;left:-20px;transform:rotate(-25deg)"></div>
+
+                <!-- Sub-tallos -->
+                <div class="tallo" style="width:12px;height:250px;left:30px;bottom:0;transform:rotate(-10deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:220px;left:-10px;bottom:0;transform:rotate(10deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:270px;left:10px;bottom:0;transform:rotate(-5deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:250px;left:15px;bottom:0;transform:rotate(-7deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:220px;left:-10px;bottom:0;transform:rotate(7deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:270px;left:25px;bottom:0;transform:rotate(-11deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:250px;left:10px;bottom:0;transform:rotate(-3deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:220px;left:-10px;bottom:0;transform:rotate(8deg);background:#4caf50"></div>
+                <div class="tallo" style="width:12px;height:270px;left:20px;bottom:0;transform:rotate(-8deg);background:#4caf50"></div>
+
+                <!-- Hojas adicionales del tallo -->
+                <div class="leaf-tallo" style="bottom:210px;left:40px;transform:rotate(-40deg)"></div>
+                <div class="leaf-tallo" style="bottom:230px;left:-30px;transform:rotate(30deg)"></div>
+                <div class="leaf-tallo" style="bottom:250px;left:-20px;transform:rotate(-20deg)"></div>
+
+                <!-- *** 16 FLORES *** -->
+                <!-- 1 - Izquierda abajo -->
+                <div class="flor" style="width:300px;height:300px;left:-200px;bottom:200px"></div>
+                <!-- 2 - Derecha abajo grande -->
+                <div class="flor" style="width:360px;height:360px;left:-60px;bottom:180px"></div>
+                <!-- 3 - Izquierda arriba -->
+                <div class="flor" style="width:200px;height:200px;left:-250px;bottom:330px"></div>
+                <!-- 4 - Derecha arriba -->
+                <div class="flor" style="width:250px;height:250px;left:50px;bottom:330px"></div>
+                <!-- 5 - Derecha más arriba -->
+                <div class="flor" style="width:280px;height:280px;left:0px;bottom:450px"></div>
+                <!-- 6 - Centro arriba -->
+                <div class="flor" style="width:300px;height:300px;left:-140px;bottom:470px"></div>
+                <!-- 7 - Izquierda alta -->
+                <div class="flor" style="width:180px;height:180px;left:-180px;bottom:550px"></div>
+                <!-- 8 - Izquierda media-alta -->
+                <div class="flor" style="width:250px;height:250px;left:-260px;bottom:420px"></div>
+                <!-- 9 - Central grande -->
+                <div class="flor" data-big="true" style="width:400px;height:400px;left:-200px;bottom:300px"></div>
+                <!-- 10 - Derecha media -->
+                <div class="flor" style="width:220px;height:220px;left:80px;bottom:420px"></div>
+                <!-- 11 - Derecha alta -->
+                <div class="flor" style="width:190px;height:190px;left:100px;bottom:530px"></div>
+                <!-- 12 - Far izquierda baja -->
+                <div class="flor" style="width:230px;height:230px;left:-310px;bottom:310px"></div>
+                <!-- 13 - Far izquierda alta -->
+                <div class="flor" style="width:200px;height:200px;left:-300px;bottom:460px"></div>
+                <!-- 14 - Tope centro -->
+                <div class="flor" style="width:210px;height:210px;left:-80px;bottom:600px"></div>
+                <!-- 15 - Tope derecha -->
+                <div class="flor" style="width:170px;height:170px;left:60px;bottom:590px"></div>
+                <!-- 16 - Tope izquierda -->
+                <div class="flor" style="width:190px;height:190px;left:-230px;bottom:620px"></div>
+
+                <!-- Lazo -->
+                <div style="position:absolute;bottom:0;left:-140px;width:300px;height:300px;z-index:4">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 50 C20 20, 0 50, 50 50 C100 50, 80 20, 50 50" fill="#ff6666" />
+                    </svg>
+                </div>
+
+                <!-- Envoltorio punta abajo -->
+                <div style="position:absolute;bottom:60px;left:-40px;width:100px;height:150px;background:white;clip-path:polygon(50% 0%,100% 100%,0% 100%);z-index:2;border-radius:5px"></div>
+                <!-- Envoltorio cuerpo -->
+                <div style="position:absolute;bottom:140px;left:-390px;width:800px;height:600px;background:white;clip-path:polygon(0 0,100% 0,50% 100%);border-radius:5px;z-index:-1"></div>
+                <!-- Cintas del lazo -->
+                <div style="position:absolute;bottom:22px;left:50px;width:30px;height:150px;background:#ff6666;transform:rotate(-40deg);z-index:5"></div>
+                <div style="position:absolute;bottom:20px;left:-55px;width:30px;height:150px;background:#ff6666;transform:rotate(40deg);z-index:5"></div>
+            </div>
         </div>
-        <div class="tallo"
-            style="width:12px; height:220px; left:-10px; bottom:0; transform:rotate(10deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:270px; left: 10px;; bottom:0; transform:rotate(-5deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:250px; left: 15px;; bottom:0; transform:rotate(-7deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:220px; left:-10px; bottom:0; transform:rotate(7deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:270px; left: 25px;; bottom:0; transform:rotate(-11deg); background:#4caf50;">
-        </div>
-        <div class="tallo"
-            style="width:12px; height:250px; left: 10px;; bottom:0; transform:rotate(-3deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:220px; left:-10px; bottom:0; transform:rotate(8deg); background:#4caf50;"></div>
-        <div class="tallo"
-            style="width:12px; height:270px; left: 20px;; bottom:0; transform:rotate(-8deg); background:#4caf50;"></div>
-
-        <!-- Hojas de los tallos adicionales -->
-        <div class="leaf-tallo" style="bottom:210px; left: 40px; transform:rotate(-40deg);"></div>
-        <div class="leaf-tallo" style="bottom:230px; left: -30px;; transform:rotate(30deg);"></div>
-        <div class="leaf-tallo" style="bottom:250px; left: -20px; transform:rotate(-20deg);"></div>
-
-        <!-- FLORES ADICIONALES CERCA DE LA CENTRAL -->
-        <!-- Izquierda arriba -->
-        <div class="flor" style="width:200px; height:200px; left:-250px; bottom:330px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-
-
-        <!-- IZQUIERDA ABAJO -->
-        <div class="flor" style="width:300px; height:300px; left:-200px; bottom:200px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!-- DERECHA ABAJO -->
-        <div class="flor" style="width:360px; height:360px; left:-60px; bottom:180px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!-- DERECHA ARRIBA -->
-        <div class="flor" style="width:250px; height:250px; left:50px; bottom:330px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!-- DERECHA ARRIBA mas arriba-->
-        <div class="flor" style="width:280px; height:280px; left:0px; bottom:450px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!--  ARRIBA mas arriba-->
-        <div class="flor" style="width:300px; height:300px; left:-140px; bottom:470px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!--  izquierda ARRIBA mas arriba aun -->
-        <div class="flor" style="width:180px; height:180px; left:-180px; bottom:550px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-        <!--  izquierda ARRIBA mas arriba-->
-        <div class="flor" style="width:250px; height:250px; left:-260px; bottom:420px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower" transform="scale(0.5)">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-            </svg>
-        </div>
-
-
-
-        <!-- Flor gigante central -->
-        <div class="flor" style="width:400px; height:400px; left:-200px; bottom:300px;">
-            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <g class="flower">
-                    <g fill="#ffd93d" stroke="black" stroke-width="1">
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(0 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)" />
-                        <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)" />
-                    </g>
-                    <g fill="#ffec99">
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)" />
-                        <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)" />
-                    </g>
-                    <g fill="#ffe066">
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(11 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)" />
-                        <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)" />
-                    </g>
-                    <circle cx="200" cy="200" r="40" fill="#f7b801" />
-                </g>
-
-            </svg>
-        </div>
-        <!-- LAZOS -->
-        <div style="position:absolute; bottom:0px; left:-140px; width:300px; height:300px; z-index:4;">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 50 C20 20, 0 50, 50 50 C100 50, 80 20, 50 50" fill="#ff6666" />
-            </svg>
-        </div>
-
-        <!-- ENVOLTORIO -->
-        <!-- ENVOLTORIO ABAJO-->
-        <div style="position:absolute; bottom:60px; left: -40px; width:100px; height:150px; 
-            background:white; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); 
-            z-index:2; border-radius:5px;"></div>
-
-        <!-- ENVOLTORIO ARRIBA -->
-        <div style="position:absolute; bottom:140px; left: -390px; width:800px; height:600px; 
-            background:white; clip-path: polygon(0 0, 100% 0, 50% 100%);
-            border-radius:5px; z-index:-1;"></div>
-        <!-- LAZO encima del envoltorio -->
-        <div class="LAZO" style="position:absolute; bottom:22px; left:50px; width:30px; height:150px; 
-            background:#ff6666; transform:rotate(-40deg); z-index:5;"></div>
-        <!-- LAZO encima del envoltorio -->
-        <div class="LAZO" style="position:absolute; bottom:20px; left:-55px; width:30px; height:150px; 
-            background:#ff6666; transform:rotate(40deg); z-index:5;"></div>
     </div>
 
     <script>
-        // Animar todas las flores
-        document.querySelectorAll('.flower').forEach(flower => {
-            flower.animate([{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
-                duration: 2000,
-                fill: 'forwards',
-                easing: 'ease-out'
-            });
+        // Flower SVG – small (scale 0.5)
+        const smallFlower = `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <g class="flower" transform="scale(0.5)">
+                <g fill="#ffd93d" stroke="black" stroke-width="1">
+                    <ellipse cx="200" cy="130" rx="40" ry="70"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)"/>
+                </g>
+                <g fill="#ffec99">
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)"/>
+                </g>
+                <g fill="#ffe066">
+                    <ellipse cx="200" cy="160" rx="20" ry="40"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)"/>
+                </g>
+                <circle cx="200" cy="200" r="40" fill="#f7b801"/>
+            </g>
+        </svg>`;
+
+        // Flower SVG – big central (full size)
+        const bigFlower = `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <g class="flower">
+                <g fill="#ffd93d" stroke="black" stroke-width="1">
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(0 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(45 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(90 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(135 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(180 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(225 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(270 200 200)"/>
+                    <ellipse cx="200" cy="130" rx="40" ry="70" transform="rotate(315 200 200)"/>
+                </g>
+                <g fill="#ffec99">
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(22.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(67.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(112.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(157.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(202.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(247.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(292.5 200 200)"/>
+                    <ellipse cx="200" cy="145" rx="30" ry="55" transform="rotate(337.5 200 200)"/>
+                </g>
+                <g fill="#ffe066">
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(11 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(56 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(101 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(146 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(191 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(236 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(281 200 200)"/>
+                    <ellipse cx="200" cy="160" rx="20" ry="40" transform="rotate(326 200 200)"/>
+                </g>
+                <circle cx="200" cy="200" r="40" fill="#f7b801"/>
+            </g>
+        </svg>`;
+
+        // Inject SVG into each flower div
+        document.querySelectorAll('.flor').forEach(f => {
+            f.innerHTML = f.dataset.big === 'true' ? bigFlower : smallFlower;
         });
 
-        // Hojas cayendo
+        // Responsive scaling — scales the entire bouquet from bottom center
+        const wrap = document.getElementById('bouquet-wrap');
+        function scaleBouquet() {
+            const s = Math.min(1, window.innerWidth / 800);
+            wrap.style.transform = `scale(${s})`;
+        }
+        scaleBouquet();
+        window.addEventListener('resize', scaleBouquet);
+
+        // Animate flowers on bloom
+        document.querySelectorAll('.flower').forEach((flower, i) => {
+            flower.animate(
+                [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
+                { duration: 2000, delay: i * 80, fill: 'forwards', easing: 'ease-out' }
+            );
+        });
+
+        // Falling petals / leaves
         function createLeaf() {
             const l = document.createElement('div');
             l.className = 'leaf';
@@ -542,15 +287,14 @@
             l.style.animationDuration = (6 + Math.random() * 6) + 's';
             l.style.animationDelay = (Math.random() * 5) + 's';
             l.style.transform = `scale(${0.6 + Math.random() * 1.1})`;
-            const colors = ["#ffd93d", "#ffe066", "#ffec99", "#fdd835", "#fbc02d"];
+            const colors = ['#ffd93d', '#ffe066', '#ffec99', '#fdd835', '#fbc02d'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             const types = [
                 `<ellipse cx='15' cy='15' rx='12' ry='6' fill='${color}'/>`,
                 `<path d='M15 0 C25 10, 25 20, 15 30 C5 20, 5 10, 15 0Z' fill='${color}'/>`,
                 `<circle cx='15' cy='15' r='10' fill='${color}'/>`
             ];
-            const shape = types[Math.floor(Math.random() * types.length)];
-            l.innerHTML = `<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'>${shape}</svg>`;
+            l.innerHTML = `<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'>${types[Math.floor(Math.random() * types.length)]}</svg>`;
             document.body.appendChild(l);
         }
         for (let i = 0; i < 40; i++) { createLeaf(); }
